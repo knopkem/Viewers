@@ -1,37 +1,16 @@
 import setActiveLabelmap from './utils/setActiveLabelMap';
+import { metadata } from '@ohif/core';
 
-export default function getSourceDisplaySet(studies, segDisplaySet) {
-  const referencedDisplaySet = _getReferencedDisplaySet(segDisplaySet, studies);
+export default function getSourceDisplaySet(studies, segDisplaySet, activateLabelMap = true, onDisplaySetLoadFailureHandler) {
+  const referencedDisplaySet = metadata.StudyMetadata.getReferencedDisplaySet(segDisplaySet, studies);
 
-  setActiveLabelmap(referencedDisplaySet, studies, segDisplaySet);
+  let activatedLabelmapPromise;
+  if (activateLabelMap) {
+    activatedLabelmapPromise = setActiveLabelmap(referencedDisplaySet, studies, segDisplaySet, undefined, onDisplaySetLoadFailureHandler);
+  }
 
-  return referencedDisplaySet;
+  return {
+    referencedDisplaySet : referencedDisplaySet,
+    activatedLabelmapPromise : activatedLabelmapPromise
+  }
 }
-
-const _getReferencedDisplaySet = (segDisplaySet, studies) => {
-  let allDisplaySets = [];
-
-  studies.forEach(study => {
-    allDisplaySets = allDisplaySets.concat(study.displaySets);
-  });
-
-  const otherDisplaySets = allDisplaySets.filter(
-    ds => ds.displaySetInstanceUID !== segDisplaySet.displaySetInstanceUID
-  );
-
-  const ReferencedSeriesSequence = Array.isArray(
-    segDisplaySet.metadata.ReferencedSeriesSequence
-  )
-    ? segDisplaySet.metadata.ReferencedSeriesSequence
-    : [segDisplaySet.metadata.ReferencedSeriesSequence];
-
-  const referencedSeriesInstanceUIDs = ReferencedSeriesSequence.map(
-    ReferencedSeries => ReferencedSeries.SeriesInstanceUID
-  );
-
-  const referencedDisplaySet = otherDisplaySets.find(ds =>
-    referencedSeriesInstanceUIDs.includes(ds.SeriesInstanceUID)
-  );
-
-  return referencedDisplaySet;
-};

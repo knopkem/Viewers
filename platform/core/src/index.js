@@ -20,12 +20,14 @@ import ui from './ui';
 import user from './user.js';
 import errorHandler from './errorHandler.js';
 import utils, { hotkeys } from './utils/';
+import str2ab from './utils/str2ab';
 
 import {
   UINotificationService,
   UIModalService,
   UIDialogService,
   MeasurementService,
+  LoggerService,
 } from './services';
 
 const OHIF = {
@@ -60,6 +62,7 @@ const OHIF = {
   UIModalService,
   UIDialogService,
   MeasurementService,
+  LoggerService,
 };
 
 export {
@@ -93,6 +96,9 @@ export {
   UIModalService,
   UIDialogService,
   MeasurementService,
+  LoggerService,
+
+  str2ab,
 };
 
 export { OHIF };

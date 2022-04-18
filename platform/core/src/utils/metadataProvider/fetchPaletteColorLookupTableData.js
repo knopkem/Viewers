@@ -3,6 +3,7 @@ import DICOMWeb from '../../DICOMWeb';
 import str2ab from '../str2ab';
 
 import errorHandler from '../../errorHandler';
+import getXHRRetryRequestHook from '../xhrRetryRequestHook';
 
 export default async function fetchPaletteColorLookupTableData(
   instance,
@@ -112,7 +113,7 @@ const _paletteColorCache = {
 };
 
 function _getPaletteColor(server, paletteColorLookupTableData, lutDescriptor) {
-  const numLutEntries = lutDescriptor[0];
+  const numLutEntries = lutDescriptor[0] ? lutDescriptor[0] : 65536;
   const bits = lutDescriptor[2];
 
   const arrayBufferToPaletteColorLUT = arraybuffer => {
@@ -141,6 +142,7 @@ function _getPaletteColor(server, paletteColorLookupTableData, lutDescriptor) {
       url: server.wadoRoot, //BulkDataURI is absolute, so this isn't used
       headers: DICOMWeb.getAuthorizationHeader(server),
       errorInterceptor: errorHandler.getHTTPErrorHandler(),
+      requestHooks: [getXHRRetryRequestHook()],
     };
     const dicomWeb = new api.DICOMwebClient(config);
     const options = {

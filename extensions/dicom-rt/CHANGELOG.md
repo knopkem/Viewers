@@ -3,6 +3,317 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.11](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.10...@ohif/extension-dicom-rt@0.7.11) (2022-04-05)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.10](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.9...@ohif/extension-dicom-rt@0.7.10) (2022-03-25)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.9](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.8...@ohif/extension-dicom-rt@0.7.9) (2022-03-14)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.8](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.7...@ohif/extension-dicom-rt@0.7.8) (2022-02-03)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.7](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.6...@ohif/extension-dicom-rt@0.7.7) (2022-02-02)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.6](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.5...@ohif/extension-dicom-rt@0.7.6) (2022-01-20)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.5](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.4...@ohif/extension-dicom-rt@0.7.5) (2022-01-19)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.4](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.3...@ohif/extension-dicom-rt@0.7.4) (2021-12-02)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.3](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.2...@ohif/extension-dicom-rt@0.7.3) (2021-10-26)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.2](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.1...@ohif/extension-dicom-rt@0.7.2) (2021-10-06)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.7.1](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.7.0...@ohif/extension-dicom-rt@0.7.1) (2021-09-28)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+# [0.7.0](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.14...@ohif/extension-dicom-rt@0.7.0) (2021-09-23)
+
+
+### Features
+
+* Update to WADO Image Loader 4.0.3 to add dynamically imported WebAssembly codec support 🚀 ([#2537](https://github.com/OHIF/Viewers/issues/2537)) ([489d4b0](https://github.com/OHIF/Viewers/commit/489d4b0584f4657ceda1c5b9b68d5e9733827e47))
+
+
+
+
+
+## [0.6.14](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.13...@ohif/extension-dicom-rt@0.6.14) (2021-09-03)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.13](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.12...@ohif/extension-dicom-rt@0.6.13) (2021-06-02)
+
+
+### Bug Fixes
+
+* **dicom-html:** Add parsed dicom meta info section ([#2419](https://github.com/OHIF/Viewers/issues/2419)) ([403688b](https://github.com/OHIF/Viewers/commit/403688b18c52468fc1101166ec0c1734fb710039))
+
+
+
+
+
+## [0.6.12](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.11...@ohif/extension-dicom-rt@0.6.12) (2021-05-17)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.11](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.10...@ohif/extension-dicom-rt@0.6.11) (2021-04-22)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.10](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.9...@ohif/extension-dicom-rt@0.6.10) (2021-04-22)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.9](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.8...@ohif/extension-dicom-rt@0.6.9) (2021-04-21)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.8](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.7...@ohif/extension-dicom-rt@0.6.8) (2021-04-15)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.7](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.6...@ohif/extension-dicom-rt@0.6.7) (2021-03-09)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.6](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.5...@ohif/extension-dicom-rt@0.6.6) (2021-03-03)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.5](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.4...@ohif/extension-dicom-rt@0.6.5) (2021-02-25)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.4](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.3...@ohif/extension-dicom-rt@0.6.4) (2021-02-05)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.3](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.2...@ohif/extension-dicom-rt@0.6.3) (2021-01-21)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.2](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.1...@ohif/extension-dicom-rt@0.6.2) (2021-01-21)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.6.1](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.6.0...@ohif/extension-dicom-rt@0.6.1) (2020-12-10)
+
+
+### Bug Fixes
+
+* panel issues and mpr button (IDC2122-IDC2117) ([32022f5](https://github.com/OHIF/Viewers/commit/32022f51f2d24f53f4c98188980db038a6dfe76c))
+
+
+
+
+
+# [0.6.0](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.5.0...@ohif/extension-dicom-rt@0.6.0) (2020-12-10)
+
+
+### Features
+
+* visualize overlapping segments in cornerstone ([#2185](https://github.com/OHIF/Viewers/issues/2185)) ([29fceac](https://github.com/OHIF/Viewers/commit/29fceacee97d51f1952a0f6b574c66596d32c201))
+
+
+
+
+
+# [0.5.0](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.9...@ohif/extension-dicom-rt@0.5.0) (2020-12-03)
+
+
+### Features
+
+* Update approach to better handle rtdose instead of disabling panel ([f3cecf1](https://github.com/OHIF/Viewers/commit/f3cecf129b16f8d24d239aa44fdff7f46e6ba683))
+
+
+
+
+
+## [0.4.9](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.8...@ohif/extension-dicom-rt@0.4.9) (2020-10-12)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.4.8](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.7...@ohif/extension-dicom-rt@0.4.8) (2020-10-07)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.4.7](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.6...@ohif/extension-dicom-rt@0.4.7) (2020-10-06)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.4.6](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.5...@ohif/extension-dicom-rt@0.4.6) (2020-09-17)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.4.5](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.4...@ohif/extension-dicom-rt@0.4.5) (2020-09-10)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.4.4](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.3...@ohif/extension-dicom-rt@0.4.4) (2020-09-10)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.4.3](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.2...@ohif/extension-dicom-rt@0.4.3) (2020-09-03)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.4.2](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.1...@ohif/extension-dicom-rt@0.4.2) (2020-09-02)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
+## [0.4.1](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.4.0...@ohif/extension-dicom-rt@0.4.1) (2020-08-28)
+
+**Note:** Version bump only for package @ohif/extension-dicom-rt
+
+
+
+
+
 # [0.4.0](https://github.com/OHIF/Viewers/compare/@ohif/extension-dicom-rt@0.3.0...@ohif/extension-dicom-rt@0.4.0) (2020-08-18)
 
 

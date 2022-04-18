@@ -1,4 +1,5 @@
 import '@percy/cypress';
+import { enable } from 'cornerstone-core';
 import 'cypress-file-upload';
 import { DragSimulator } from '../helpers/DragSimulator.js';
 import {
@@ -149,10 +150,11 @@ Cypress.Commands.add('addLine', (viewport, firstClick, secondClick) => {
     const [x1, y1] = firstClick;
     const [x2, y2] = secondClick;
 
+    // TODO: Added a wait which appears necessary in Cornerstone Tools >4?
     cy.wrap($viewport)
-      .click(x1, y1, { force: true })
+      .click(x1, y1).wait(100)
       .trigger('mousemove', { clientX: x2, clientY: y2 })
-      .click(x2, y2, { force: true });
+      .click(x2, y2).wait(100);
   });
 });
 
@@ -198,6 +200,11 @@ Cypress.Commands.add('waitDicomImage', (timeout = 50000) => {
       .its('cornerstone')
       .then({ timeout }, $cornerstone => {
         return new Cypress.Promise(resolve => {
+          const onEnabled = enabledEvt => {
+            const element = enabledEvt.detail.element;
+
+            element.addEventListener('cornerstoneimagerendered', onEvent);
+          };
           const onEvent = renderedEvt => {
             const element = renderedEvt.detail.element;
 
@@ -208,15 +215,17 @@ Cypress.Commands.add('waitDicomImage', (timeout = 50000) => {
             );
             resolve();
           };
-          const onEnabled = enabledEvt => {
-            const element = enabledEvt.detail.element;
-
-            element.addEventListener('cornerstoneimagerendered', onEvent);
-          };
-          $cornerstone.events.addEventListener(
-            'cornerstoneelementenabled',
-            onEnabled
-          );
+          const enabledElements = $cornerstone.getEnabledElements();
+          if (enabledElements && enabledElements.length && !enabledElements[0].invalid) {
+            // Sometimes the page finishes rendering before this gets run,
+            // if so, just resolve immediately.
+            resolve();
+          } else {
+            $cornerstone.events.addEventListener(
+              'cornerstoneelementenabled',
+              onEnabled
+            );
+          }
         });
       });
   }
@@ -242,6 +251,8 @@ Cypress.Commands.add('resetViewport', () => {
   cy.get('[data-cy="reset"]')
     .as('resetBtn')
     .click();
+
+  cy.get('.tooltip-toolbar-overlay').should('not.exist');
 });
 
 Cypress.Commands.add('imageZoomIn', () => {
@@ -466,6 +477,24 @@ Cypress.Commands.add('openPreferences', () => {
   });
 });
 
+Cypress.Commands.add('closePreferences', () => {
+  cy.log('Close User Preferences Modal');
+
+  cy.get('body').then(body => {
+    // Close notification if displayed
+    if (body.find('.sb-closeIcon').length > 0) {
+      cy.get('.sb-closeIcon')
+        .first()
+        .click({ force: true });
+    }
+
+    // Close User Preferences Modal (if displayed)
+    if (body.find('.OHIFModal__header').length > 0) {
+      cy.get('[data-cy="close-button"]').click({ force: true });
+    }
+  });
+});
+
 Cypress.Commands.add('selectPreferencesTab', tabAlias => {
   cy.initPreferencesModalAliases();
   cy.get(tabAlias)
@@ -483,6 +512,9 @@ Cypress.Commands.add('resetUserHotkeyPreferences', () => {
     cy.get('@restoreBtn').click();
   });
 
+  // Click on Save Button
+  cy.get('@saveBtn').click();
+
   // Close Success Message overlay (if displayed)
   cy.get('body').then(body => {
     if (body.find('.sb-closeIcon').length > 0) {
@@ -490,8 +522,6 @@ Cypress.Commands.add('resetUserHotkeyPreferences', () => {
         .first()
         .click({ force: true });
     }
-    // Click on Save Button
-    cy.get('@saveBtn').click();
   });
 });
 
@@ -504,6 +534,9 @@ Cypress.Commands.add('resetUserGeneralPreferences', () => {
     cy.get('@restoreBtn').click();
   });
 
+  // Click on Save Button
+  cy.get('@saveBtn').click();
+
   // Close Success Message overlay (if displayed)
   cy.get('body').then(body => {
     if (body.find('.sb-closeIcon').length > 0) {
@@ -511,8 +544,6 @@ Cypress.Commands.add('resetUserGeneralPreferences', () => {
         .first()
         .click({ force: true });
     }
-    // Click on Save Button
-    cy.get('@saveBtn').click();
   });
 });
 
@@ -527,8 +558,7 @@ Cypress.Commands.add(
           .parent()
           .find('input') // closest input to that label
           .type(shortcut, { force: true }); // Set new shortcut for that function
-      })
-      .blur();
+      });
   }
 );
 

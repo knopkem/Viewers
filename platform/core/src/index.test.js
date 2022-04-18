@@ -14,6 +14,7 @@ describe('Top level exports', () => {
       'UIModalService',
       'UIDialogService',
       'MeasurementService',
+      'LoggerService',
       //
       'utils',
       'hotkeys',
@@ -25,6 +26,7 @@ describe('Top level exports', () => {
       'cornerstone',
       'default', //
       'errorHandler',
+      'str2ab',
       'string',
       'ui',
       'user',

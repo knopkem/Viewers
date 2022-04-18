@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cornerstoneTools from 'cornerstone-tools';
 import cornerstone from 'cornerstone-core';
@@ -12,6 +12,9 @@ import StructureSetItem from '../StructureSetItem/StructureSetItem';
 import RTPanelSettings from '../RTSettings/RTSettings';
 import PanelSection from '../PanelSection/PanelSection';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
+import TOOL_NAMES from '../../utils/toolNames';
+
+const { RTSTRUCT_DISPLAY_TOOL } = TOOL_NAMES;
 
 const { studyMetadataManager } = utils;
 
@@ -28,19 +31,20 @@ const refreshViewport = () => {
  *
  * @param {Object} props
  * @param {Array} props.studies
- * @param {Array} props.viewports - viewportSpecificData
+ * @param {Array} props.getActiveViewport - get active viewport data
  * @param {number} props.activeIndex - activeViewportIndex
  * @param {number} props.isOpen - isOpen
  * @returns component
  */
 const RTPanel = ({
   studies,
-  viewports,
   activeIndex,
   isOpen,
   onContourItemClick,
   activeContexts = [],
   contexts = {},
+  activeViewport,
+  getActiveViewport,
 }) => {
   const isVTK = () => activeContexts.includes(contexts.VTK);
   const isCornerstone = () => activeContexts.includes(contexts.CORNERSTONE);
@@ -51,11 +55,11 @@ const RTPanel = ({
     referencedDisplaysets: [],
     sets: [],
     selectedSet: null,
+    isLocked: false,
   };
 
   const [state, setState] = useState(DEFAULT_STATE);
   const [showSettings, setShowSettings] = useState(false);
-  const activeViewport = viewports[activeIndex];
 
   /*
    * TODO: Improve the way we notify parts of the app that depends on rts to be loaded.
@@ -75,30 +79,39 @@ const RTPanel = ({
    * without subscribing to external events.
    */
   useEffect(() => {
-    document.addEventListener('extensiondicomrtrtloaded', updateStructureSets);
+    updateStructureSets();
+
+    document.addEventListener('rt-panel-tab-updated', updateStructureSets);
 
     return () => {
-      document.removeEventListener(
-        'extensiondicomrtrtloaded',
-        updateStructureSets
-      );
+      document.removeEventListener('rt-panel-tab-updated', updateStructureSets);
     };
   }, []);
 
+  useEffect(() => {
+    const studyMetadata = studyMetadataManager.get(
+      activeViewport.StudyInstanceUID
+    );
+    const referencedDisplaysets = studyMetadata.getDerivedDatasets({
+      referencedSeriesInstanceUID: activeViewport.SeriesInstanceUID,
+      Modality: 'RTSTRUCT',
+    });
+    setState(state => ({ ...state, isLocked: !referencedDisplaysets.length }));
+  }, [activeViewport]);
+
   const updateStructureSets = () => {
+    const viewport = getActiveViewport();
     const module = cornerstoneTools.getModule('rtstruct');
     const StructureSets = module.state.StructureSets;
 
     if (StructureSets && StructureSets.length) {
       const viewportSets = module.getters.structuresSetsWhichReferenceSeriesInstanceUid(
-        activeViewport.SeriesInstanceUID
+        viewport.SeriesInstanceUID
       );
 
-      const studyMetadata = studyMetadataManager.get(
-        activeViewport.StudyInstanceUID
-      );
+      const studyMetadata = studyMetadataManager.get(viewport.StudyInstanceUID);
       const referencedDisplaysets = studyMetadata.getDerivedDatasets({
-        referencedSeriesInstanceUID: activeViewport.SeriesInstanceUID,
+        referencedSeriesInstanceUID: viewport.SeriesInstanceUID,
         Modality: 'RTSTRUCT',
       });
 
@@ -114,10 +127,6 @@ const RTPanel = ({
       }
     }
   };
-
-  useEffect(() => {
-    updateStructureSets();
-  }, [studies, viewports, activeIndex]);
 
   useEffect(() => {
     setShowSettings(showSettings && !isOpen);
@@ -144,13 +153,16 @@ const RTPanel = ({
           if (isCornerstone()) {
             const enabledElements = cornerstone.getEnabledElements();
             const element = enabledElements[activeIndex].element;
-            const toolState = cornerstoneTools.getToolState(element, 'stack');
+            const stackToolState = cornerstoneTools.getToolState(
+              element,
+              'stack'
+            );
 
-            if (!toolState) {
+            if (!stackToolState) {
               return;
             }
 
-            const imageIds = toolState.data[0].imageIds;
+            const imageIds = stackToolState.data[0].imageIds;
 
             const module = cornerstoneTools.getModule('rtstruct');
             const imageId = module.getters.imageIdOfCenterFrameOfROIContour(
@@ -158,6 +170,18 @@ const RTPanel = ({
               ROINumber,
               imageIds
             );
+
+            const toolState = cornerstoneTools.globalImageIdSpecificToolStateManager.saveToolState();
+            const imageIdSpecificToolState = toolState[imageId];
+
+            const rtstructData =
+              imageIdSpecificToolState[RTSTRUCT_DISPLAY_TOOL];
+
+            const specificData = rtstructData.data.find(
+              rtData => rtData.ROINumber === ROINumber
+            );
+
+            specificData.highlight = true;
 
             const frameIndex = imageIds.indexOf(imageId);
             const SOPInstanceUID = cornerstone.metaData.get(
@@ -213,16 +237,19 @@ const RTPanel = ({
   return (
     <div className="dcmrt-panel">
       <div className="dcmrt-panel-header">
+        {' '}
+        {!state.isLocked && (
+          <Icon
+            className="cog-icon"
+            name="cog"
+            width="25px"
+            height="25px"
+            onClick={() => setShowSettings(true)}
+          />
+        )}
         <h3>RT Structure Sets</h3>
-        <Icon
-          className="cog-icon"
-          name="cog"
-          width="25px"
-          height="25px"
-          onClick={() => setShowSettings(true)}
-        />
       </div>
-      {!state.referencedDisplaysets.length && (
+      {!state.isLocked && !state.referencedDisplaysets.length && (
         <LoadingIndicator expand height="70px" width="70px" />
       )}
       {state.sets &&
@@ -231,12 +258,15 @@ const RTPanel = ({
 
           const module = cornerstoneTools.getModule('rtstruct');
           const sets = module.getters.structuresSetsWhichReferenceSeriesInstanceUid(
-            viewports[activeIndex].SeriesInstanceUID
+            activeViewport.SeriesInstanceUID
           );
 
           const loadedSet = sets.find(
             set => set.SeriesInstanceUID === SeriesInstanceUID
           );
+
+          if (!loadedSet) return null;
+
           return (
             <PanelSection
               key={SeriesInstanceUID}
@@ -258,17 +288,17 @@ const RTPanel = ({
                   module.setters.hideStructureSet(loadedSet.SeriesInstanceUID);
                 }
                 const sets = module.getters.structuresSetsWhichReferenceSeriesInstanceUid(
-                  viewports[activeIndex].SeriesInstanceUID
+                  activeViewport.SeriesInstanceUID
                 );
                 setState(state => ({ ...state, sets }));
                 refreshViewport();
               }}
               onExpandChange={async () => {
                 if (!isLoaded) {
-                  await displaySet.load(viewports[activeIndex], studies);
+                  await displaySet.load(activeViewport, studies);
                   const module = cornerstoneTools.getModule('rtstruct');
                   const sets = module.getters.structuresSetsWhichReferenceSeriesInstanceUid(
-                    viewports[activeIndex].SeriesInstanceUID
+                    activeViewport.SeriesInstanceUID
                   );
                   const selectedSet = sets.find(
                     set => set.SeriesInstanceUID === SeriesInstanceUID

@@ -5,10 +5,12 @@ const SOP_CLASS_UIDS = {
   BASIC_TEXT_SR: '1.2.840.10008.5.1.4.1.1.88.11',
   ENHANCED_SR: '1.2.840.10008.5.1.4.1.1.88.22',
   COMPREHENSIVE_SR: '1.2.840.10008.5.1.4.1.1.88.33',
+  COMPREHENSIVE_3D_SR: '1.2.840.10008.5.1.4.1.1.88.34',
   PROCEDURE_LOG_STORAGE: '1.2.840.10008.5.1.4.1.1.88.40',
   MAMMOGRAPHY_CAD_SR: '1.2.840.10008.5.1.4.1.1.88.50',
   CHEST_CAD_SR: '1.2.840.10008.5.1.4.1.1.88.65',
   X_RAY_RADIATION_DOSE_SR: '1.2.840.10008.5.1.4.1.1.88.67',
+  ACQUISITION_CONTEXT_SR_STORAGE: '1.2.840.10008.5.1.4.1.1.88.71'
 };
 
 const sopClassUIDs = Object.values(SOP_CLASS_UIDS);
@@ -22,6 +24,14 @@ const OHIFDicomHtmlSopClassHandler = {
   getDisplaySetFromSeries(series, study, dicomWebClient, authorizationHeaders) {
     const instance = series.getFirstInstance();
 
+    const metadata = instance.getData().metadata;
+    const {
+      SeriesDescription,
+      SeriesNumber,
+      SeriesDate,
+      SeriesTime,
+    } = metadata;
+
     return {
       plugin: 'html',
       Modality: 'SR',
@@ -31,7 +41,14 @@ const OHIFDicomHtmlSopClassHandler = {
       SOPInstanceUID: instance.getSOPInstanceUID(),
       SeriesInstanceUID: series.getSeriesInstanceUID(),
       StudyInstanceUID: study.getStudyInstanceUID(),
+      SeriesDescription,
+      metadata,
+      SeriesDate,
+      SeriesTime,
+      SeriesNumber,
       authorizationHeaders,
+      sopClassUids: sopClassUIDs,
+      images: series._instances,
     };
   },
 };
